@@ -1,3 +1,6 @@
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
+ignoreScripts: true
+minimumReleaseAge: 1440
+saveExact: true
