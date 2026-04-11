@@ -41,3 +41,7 @@ Start the production server
 ```bash
 pnpm start
 ```
+
+## Authentication
+
+This project uses Auth0 for authentication. `AUTH0_SECRET` is used to encrypt the session cookie. For production, generate your own secret using `openssl rand -hex 32` and set it in the `.env` file.
