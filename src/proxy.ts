@@ -1,14 +1,12 @@
 import type { NextRequest, ProxyConfig } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import { auth0 } from '@/core/auth/lib/auth0'
+import { auth } from '@/core/auth/lib/auth'
 import { ROUTES } from '@/core/routing/consts/routes'
 import { isPublicRoute } from '@/core/routing/lib/isPublicRoute'
 
 export async function proxy(request: NextRequest) {
-  const response = await auth0.middleware(request)
-
-  console.log(`Proxying request to ${request.nextUrl.pathname}`)
+  const response = await auth.middleware(request)
 
   const { pathname } = request.nextUrl
 
@@ -16,9 +14,9 @@ export async function proxy(request: NextRequest) {
     return response
   }
 
-  const session = await auth0.getSession(request)
+  const isAuthenticated = await auth.isRequestAuthenticated(request)
 
-  if (session) {
+  if (isAuthenticated) {
     return response
   }
 
