@@ -1,11 +1,10 @@
-import { auth0 } from '@/auth/lib/auth0'
+import { SessionData } from '@auth0/nextjs-auth0/types'
+
+import { auth0 } from '@/core/auth/lib/auth0'
+import { ROUTES } from '@/core/routing/consts/routes'
 
 export default async function Page() {
-  const session = await auth0.getSession()
-
-  if (!session) {
-    return <a href="/auth/login">Login</a>
-  }
+  const session = (await auth0.getSession()) as SessionData
 
   return (
     <main>
@@ -13,12 +12,10 @@ export default async function Page() {
 
       <p>Logged in as {session.user.email}</p>
 
-      {/* Display user info (name, email, etc.) */}
-      <h1>User Profile</h1>
+      <p>User Profile</p>
       <pre>{JSON.stringify(session.user, null, 2)}</pre>
 
-      {/* Ends the session and redirects to Auth0 to log out */}
-      <a href="/auth/logout">Logout</a>
+      <a href={ROUTES.AUTH_LOGOUT}>Logout</a>
     </main>
   )
 }
