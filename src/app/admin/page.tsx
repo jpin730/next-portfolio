@@ -8,7 +8,9 @@ export default async function Page() {
   }
 
   return (
-    <>
+    <main>
+      <h1>Admin</h1>
+
       <p>Logged in as {session.user.email}</p>
 
       {/* Display user info (name, email, etc.) */}
@@ -17,6 +19,6 @@ export default async function Page() {
 
       {/* Ends the session and redirects to Auth0 to log out */}
       <a href="/auth/logout">Logout</a>
-    </>
+    </main>
   )
 }
