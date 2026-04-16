@@ -1,11 +1,11 @@
 import type { NextRequest, ProxyConfig } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import { auth } from '@/core/auth/lib/auth'
-import { ROUTES } from '@/core/routing/consts/routes'
-import { isPublicRoute } from '@/core/routing/lib/isPublicRoute'
+import { ROUTES } from '@/core/consts/routes'
+import { auth } from '@/core/lib/auth'
+import { isPublicRoute } from '@/core/utils/isPublicRoute'
 
-export async function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest): Promise<NextResponse<unknown>> {
   const response = await auth.middleware(request)
 
   const { pathname } = request.nextUrl

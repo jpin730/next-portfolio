@@ -4,7 +4,8 @@ import { Auth0Client } from '@auth0/nextjs-auth0/server'
 import type { SessionData, User } from '@auth0/nextjs-auth0/types'
 import type { NextRequest, NextResponse } from 'next/server'
 
-import type { AuthSession, AuthUser } from '@/core/auth/types/auth'
+import { getEnvironment } from '@/core/lib/env'
+import type { AuthSession, AuthUser } from '@/core/types/auth'
 
 interface AuthProvider {
   middleware(request: NextRequest): Promise<NextResponse>
@@ -14,7 +15,15 @@ interface AuthProvider {
   isRequestAuthenticated(request: NextRequest): Promise<boolean>
 }
 
-const auth0Client = new Auth0Client()
+const environment = getEnvironment()
+
+const auth0Client = new Auth0Client({
+  appBaseUrl: environment.APP_BASE_URL,
+  clientId: environment.AUTH0_CLIENT_ID,
+  clientSecret: environment.AUTH0_CLIENT_SECRET,
+  domain: environment.AUTH0_DOMAIN,
+  secret: environment.AUTH0_SECRET,
+})
 
 const mapAuth0UserToAuthUser = (user: User): AuthUser => {
   const { sub, email, name, picture, ...claims } = user
