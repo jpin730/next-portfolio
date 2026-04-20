@@ -17,7 +17,7 @@ const eslintConfig = defineConfig([
   ]),
   {
     rules: {
-      '@typescript-eslint/explicit-function-return-type': 'error',
+      '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }],
       'no-console': ['error', { allow: ['info'] }],
     },
   },
