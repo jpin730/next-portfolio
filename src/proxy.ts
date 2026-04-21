@@ -1,7 +1,7 @@
 import type { NextRequest, ProxyConfig } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import { ROUTES } from '@/core/consts/routes'
+import { Route } from '@/core/consts/Route'
 import { auth } from '@/core/lib/auth'
 import { isPublicRoute } from '@/core/utils/isPublicRoute'
 
@@ -20,7 +20,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse<unknown>
     return response
   }
 
-  const loginUrl = new URL(ROUTES.AUTH_LOGIN, request.nextUrl.origin)
+  const loginUrl = new URL(Route.AUTH_LOGIN, request.nextUrl.origin)
   loginUrl.searchParams.set('returnTo', request.nextUrl.pathname)
   return NextResponse.redirect(loginUrl)
 }

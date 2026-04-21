@@ -1,6 +1,6 @@
-import { ROUTES } from '../consts/routes'
+import { Route } from '../consts/Route'
 
-const PUBLIC_ROUTES = [ROUTES.HOME, ROUTES.CERTIFICATES, ROUTES.AUTH]
+const PUBLIC_ROUTES = [Route.HOME, Route.CERTIFICATES, Route.AUTH]
 
 export const isPublicRoute = (pathname: string): boolean =>
   PUBLIC_ROUTES.some((route) => pathname === route || pathname.startsWith(route + '/'))
