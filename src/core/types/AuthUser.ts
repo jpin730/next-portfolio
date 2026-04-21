@@ -5,7 +5,3 @@ export interface AuthUser {
   picture: string | null
   claims: Record<string, unknown>
 }
-
-export interface AuthSession {
-  user: AuthUser
-}

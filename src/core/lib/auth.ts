@@ -5,7 +5,8 @@ import type { SessionData, User } from '@auth0/nextjs-auth0/types'
 import type { NextRequest, NextResponse } from 'next/server'
 
 import { getEnvironment } from '@/core/lib/env'
-import type { AuthSession, AuthUser } from '@/core/types/auth'
+import type { AuthSession } from '@/core/types/AuthSession'
+import { AuthUser } from '../types/AuthUser'
 
 interface AuthProvider {
   middleware(request: NextRequest): Promise<NextResponse>
