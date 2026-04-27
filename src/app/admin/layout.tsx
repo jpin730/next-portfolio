@@ -2,9 +2,9 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { JSX } from 'react'
 
-import { ProtectedPageRestoreGuard } from '@/core/components/ProtectedPageRestoreGuard'
 import { Route } from '@/core/consts/Route'
 import { auth } from '@/core/lib/auth'
+import { ProtectedPageRestoreGuard } from '@/shared/components/ProtectedPageRestoreGuard'
 
 interface Props {
   children: React.ReactNode
