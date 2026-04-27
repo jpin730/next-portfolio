@@ -5,19 +5,19 @@ import mongoose from 'mongoose'
 import { getEnvironment } from '@/core/lib/env'
 
 declare global {
-  var __mongooseConnection__: Promise<typeof mongoose> | undefined
+  var mongooseConnection: Promise<typeof mongoose> | undefined
 }
 
-export const connectToDatabase = async (): Promise<typeof mongoose> => {
-  if (global.__mongooseConnection__) {
-    return global.__mongooseConnection__
+export const connectDB = async (): Promise<typeof mongoose> => {
+  if (global.mongooseConnection) {
+    return global.mongooseConnection
   }
 
   const environment = getEnvironment()
 
-  global.__mongooseConnection__ = mongoose.connect(environment.MONGODB_URI, {
+  global.mongooseConnection = mongoose.connect(environment.MONGODB_URI, {
     dbName: environment.MONGODB_DB_NAME,
   })
 
-  return global.__mongooseConnection__
+  return global.mongooseConnection
 }
