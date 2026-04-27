@@ -1,9 +1,5 @@
 @import 'tailwindcss';
 
-@theme {
-  --color-gray: var(--color-gray-400);
-}
-
 :root {
   --background: var(--color-black);
   --foreground: var(--color-white);
