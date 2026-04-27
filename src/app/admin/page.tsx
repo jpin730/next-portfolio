@@ -27,12 +27,9 @@ export default function Page(): JSX.Element {
   ]
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main>
       <section className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
-        <header className="border border-gray-400/20 bg-white/5 p-6 sm:p-8">
-          <p className="text-xs tracking-widest text-gray-400 uppercase">admin</p>
-          <h1 className="mt-4 text-3xl font-medium sm:text-4xl">Dashboard</h1>
-        </header>
+        <h1 className="mt-4 text-3xl font-medium sm:text-4xl">Dashboard</h1>
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {tiles.map((tile) => (

@@ -14,9 +14,10 @@ export async function proxy(request: NextRequest): Promise<NextResponse<unknown>
     return response
   }
 
-  const isAuthenticated = await auth.isRequestAuthenticated(request)
+  const session = await auth.getRequestSession(request)
 
-  if (isAuthenticated) {
+  if (session) {
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, private')
     return response
   }
 

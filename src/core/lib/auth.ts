@@ -12,8 +12,6 @@ interface AuthProvider {
   middleware(request: NextRequest): Promise<NextResponse>
   getSession(): Promise<AuthSession | null>
   getRequestSession(request: NextRequest): Promise<AuthSession | null>
-  isAuthenticated(): Promise<boolean>
-  isRequestAuthenticated(request: NextRequest): Promise<boolean>
 }
 
 const environment = getEnvironment()
@@ -61,15 +59,5 @@ export const auth: AuthProvider = {
     const session = await auth0Client.getSession(request)
 
     return mapAuth0SessionToAuthSession(session)
-  },
-  async isAuthenticated() {
-    const session = await this.getSession()
-
-    return Boolean(session)
-  },
-  async isRequestAuthenticated(request) {
-    const session = await this.getRequestSession(request)
-
-    return Boolean(session)
   },
 }
