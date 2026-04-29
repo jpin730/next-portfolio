@@ -1,4 +1,6 @@
-export default function Page() {
+import { JSX } from 'react'
+
+export default function Page(): JSX.Element {
   return (
     <main>
       <h1>Portfolio</h1>

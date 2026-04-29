@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { JetBrains_Mono } from 'next/font/google'
+import { JSX } from 'react'
+
 import './globals.css'
 
 const jetBrainsMono = JetBrains_Mono({
@@ -19,7 +21,7 @@ interface Props {
   children: React.ReactNode
 }
 
-export default function Layout({ children }: Readonly<Props>) {
+export default function Layout({ children }: Readonly<Props>): JSX.Element {
   return (
     <html lang="en" className={`${jetBrainsMono.variable} antialiased`}>
       <body>{children}</body>
