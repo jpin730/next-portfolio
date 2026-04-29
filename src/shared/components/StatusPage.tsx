@@ -1,13 +1,12 @@
-import { JSX, type ReactNode } from 'react'
+import { JSX } from 'react'
 
 interface Props {
   code: string
   title: string
-  description?: string
-  action?: ReactNode
+  description?: string | null
 }
 
-export function StatusPage({ code, title, description, action }: Readonly<Props>): JSX.Element {
+export function StatusPage({ code, title, description = null }: Readonly<Props>): JSX.Element {
   return (
     <main className="flex min-h-dvh items-center justify-center px-4">
       <div className="flex max-w-2xl flex-col items-center gap-6 text-center">
@@ -17,13 +16,9 @@ export function StatusPage({ code, title, description, action }: Readonly<Props>
           <h1 className="text-2xl sm:text-3xl">{title}</h1>
         </div>
 
-        {description ? (
+        {description && (
           <p className="max-w-xl text-sm text-gray-400 sm:text-base">{description}</p>
-        ) : null}
-
-        {action ? (
-          <div className="flex flex-wrap items-center justify-center gap-3">{action}</div>
-        ) : null}
+        )}
       </div>
     </main>
   )
