@@ -3,14 +3,13 @@ import { NextResponse } from 'next/server'
 
 import { Route } from '@/core/consts/Route'
 import { auth } from '@/core/lib/auth'
-import { isPublicRoute } from '@/core/utils/isPublicRoute'
 
 export async function proxy(request: NextRequest): Promise<NextResponse<unknown>> {
   const response = await auth.middleware(request)
 
   const { pathname } = request.nextUrl
 
-  if (isPublicRoute(pathname)) {
+  if (!pathname.startsWith(Route.ADMIN)) {
     return response
   }
 
