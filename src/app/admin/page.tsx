@@ -1,7 +1,7 @@
-import Link from 'next/link'
 import { JSX } from 'react'
 
 import { Route } from '@/core/consts/Route'
+import { Link } from '@/shared/components/Link'
 
 export const dynamic = 'force-dynamic'
 
