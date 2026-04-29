@@ -2,27 +2,32 @@ import type { NextRequest, ProxyConfig } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import { Route } from '@/core/consts/Route'
-import { auth } from '@/core/lib/auth'
+import * as auth from '@/core/lib/auth'
 
 export async function proxy(request: NextRequest): Promise<NextResponse<unknown>> {
   const response = await auth.middleware(request)
 
   const { pathname } = request.nextUrl
 
-  if (!pathname.startsWith(Route.ADMIN)) {
+  if (![Route.ADMIN, Route.AUTH_LOGIN].some((route) => pathname.startsWith(route))) {
     return response
   }
 
   const session = await auth.getRequestSession(request)
+  const isLoginRoute = pathname.startsWith(Route.AUTH_LOGIN)
 
-  if (session) {
-    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, private')
-    return response
+  if (!session && !isLoginRoute) {
+    const loginUrl = new URL(Route.AUTH_LOGIN, request.nextUrl.origin)
+    loginUrl.searchParams.set('returnTo', Route.ADMIN)
+    return NextResponse.redirect(loginUrl)
   }
 
-  const loginUrl = new URL(Route.AUTH_LOGIN, request.nextUrl.origin)
-  loginUrl.searchParams.set('returnTo', request.nextUrl.pathname)
-  return NextResponse.redirect(loginUrl)
+  if (session && isLoginRoute) {
+    const adminUrl = new URL(Route.ADMIN, request.nextUrl.origin)
+    return NextResponse.redirect(adminUrl)
+  }
+
+  return response
 }
 
 export const config: ProxyConfig = {

@@ -1,17 +1,20 @@
 import 'server-only'
 
 import { Auth0Client } from '@auth0/nextjs-auth0/server'
-import type { SessionData, User } from '@auth0/nextjs-auth0/types'
 import type { NextRequest, NextResponse } from 'next/server'
 
 import { getEnvironment } from '@/core/lib/env'
-import type { AuthSession } from '@/core/types/AuthSession'
-import { AuthUser } from '../types/AuthUser'
 
-interface AuthProvider {
-  middleware(request: NextRequest): Promise<NextResponse>
-  getSession(): Promise<AuthSession | null>
-  getRequestSession(request: NextRequest): Promise<AuthSession | null>
+interface AuthUser {
+  id: string
+  email: string | null
+  name: string | null
+  picture: string | null
+  claims: Record<string, unknown>
+}
+
+interface AuthSession {
+  user: AuthUser
 }
 
 const environment = getEnvironment()
@@ -24,40 +27,24 @@ const auth0Client = new Auth0Client({
   secret: environment.AUTH0_SECRET,
 })
 
-const mapAuth0UserToAuthUser = (user: User): AuthUser => {
-  const { sub, email, name, picture, ...claims } = user
-
-  return {
-    id: sub,
-    email: email ?? null,
-    name: name ?? null,
-    picture: picture ?? null,
-    claims,
-  }
+export const middleware = async (request: NextRequest): Promise<NextResponse> => {
+  return auth0Client.middleware(request)
 }
 
-const mapAuth0SessionToAuthSession = (session: SessionData | null): AuthSession | null => {
+export const getRequestSession = async (request: NextRequest): Promise<AuthSession | null> => {
+  const session = await auth0Client.getSession(request)
   if (!session) {
     return null
   }
 
+  const { sub, email, name, picture, ...claims } = session.user
   return {
-    user: mapAuth0UserToAuthUser(session.user),
+    user: {
+      id: sub,
+      email: email ?? null,
+      name: name ?? null,
+      picture: picture ?? null,
+      claims,
+    },
   }
-}
-
-export const auth: AuthProvider = {
-  middleware(request) {
-    return auth0Client.middleware(request)
-  },
-  async getSession() {
-    const session = await auth0Client.getSession()
-
-    return mapAuth0SessionToAuthSession(session)
-  },
-  async getRequestSession(request) {
-    const session = await auth0Client.getSession(request)
-
-    return mapAuth0SessionToAuthSession(session)
-  },
 }
